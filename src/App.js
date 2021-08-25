@@ -42,30 +42,32 @@ function App() {
           <Layout className="site-layout">
             <Header className="site-layout-background" style={{ padding: 0 }} />
             <Content style={{ margin: '0 0 0 200px', overflow: 'initial'}}>
-              <Breadcrumb style={{ margin: '16px 16px' }}>
-                <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-                  {/* A <Switch> looks through its children <Route>s and
-                    renders the first one that matches the current URL. */}
-                  <Switch>
-                    <Route path="/chart">
-                      <Breadcrumb.Item>Home</Breadcrumb.Item>
-                      <Breadcrumb.Item>Chart</Breadcrumb.Item>
-                      <Chart />
-                    </Route>
-                    <Route path="/">
-                      <Breadcrumb.Item>Home</Breadcrumb.Item>
-                      <Breadcrumb.Item>Table</Breadcrumb.Item>
-                      <Home />
-                    </Route>
-                  </Switch>
-                </div>
-              </Breadcrumb>
+              {/* A <Switch> looks through its children <Route>s and
+                renders the first one that matches the current URL. */}
+              <Switch>
+                <Route path="/chart">
+                  <Breadcrumb style={{ margin: '16px 16px'}}>
+                    <Breadcrumb.Item>Home</Breadcrumb.Item>
+                    <Breadcrumb.Item>Chart</Breadcrumb.Item>
+                  </Breadcrumb>
+                  <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+                    <Chart />
+                  </div>
+                </Route>
+                <Route path="/">
+                  <Breadcrumb style={{ margin: '16px 16px'}}>
+                    <Breadcrumb.Item>Home</Breadcrumb.Item>
+                    <Breadcrumb.Item>Table</Breadcrumb.Item>
+                  </Breadcrumb>
+                  <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+                    <Home />
+                  </div>
+                </Route>
+              </Switch>
             </Content>
             <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
           </Layout>
         </Layout>
-
-
       </div>
     </Router>
   );
@@ -114,6 +116,9 @@ function PieChart () {
   pieSeries.dataFields.value = "visits";
   pieSeries.dataFields.category = "module_name";
   pieSeries.slices.template.stroke = am4core.color("#fff");
+  pieSeries.slices.template.tooltipText = 
+  `[bold]{category}[/]
+    Visits : {value}`;
   
   // Animasi Awal
   pieSeries.hiddenState.properties.opacity = 1;
@@ -121,7 +126,6 @@ function PieChart () {
   pieSeries.hiddenState.properties.startAngle = -90;
 
   pieSeries.labels.template.disabled = true;
-  pieSeries.ticks.template.disabled = true;
   chart.legend = new am4charts.Legend();
 
   let grouper = pieSeries.plugins.push(new am4plugins_sliceGrouper.SliceGrouper());
